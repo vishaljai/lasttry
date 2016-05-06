@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<h3 align="center">Insert Book</h3>
+	<form method="post" action="InsertServlet">
+		<table align="center">
+			<tr>
+				<td>Book Title: <input type="text" name="bookTitle"
+					placeholder="Enter Book Title"></td>
+			</tr>
+			<tr>
+				<td>Book Author: <input type="text" name="bookAuthor"
+					placeholder="Enter Book Author"></td>
+			</tr>
+			<tr>
+				<td>Book Publisher: <input type="text" name="bookPublisher"
+					placeholder="Enter Publisher"></td>
+			</tr>
+			<tr>
+				<td>Number of Pages: <input type="text" name="pages"
+					placeholder="Enter Number of Pages"></td>
+			</tr>
+			<tr>
+				<td><input type="submit" value="Insert"></td>
+			</tr>
+		</table>
+	</form>
+	<br>
+	<br>
+	<h3 align="center">Remove Book</h3>
+	<form method="post" action="RemoveServlet">
+		<table align="center">
+			<tr>
+				<td>Book Id: <input type="text" name="bookId"
+					placeholder="Enter Book Id"></td>
+			</tr>
+			<tr>
+				<td><input type="submit" value="Remove"></td>
+			</tr>
+		</table>
+
+	</form>
+</body>
+</html>
