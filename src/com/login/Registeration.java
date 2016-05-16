@@ -4,9 +4,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -52,9 +53,18 @@ public class Registeration extends HttpServlet {
 			ps.setString(2, request.getParameter("password"));
 			ps.execute();
 			con.commit();
-			RequestDispatcher rd = request.getRequestDispatcher("/loginPage.html");
-			rd.forward(request, response);
-		} catch (SQLException e) {
+			con.close();
+			
+			con = cdb.getConnection();
+			Statement s = con.createStatement();
+			ResultSet rs = s.executeQuery("select userId from users where userName='"+request.getParameter("username")+"'");
+			response.setContentType("text/html");
+			pw.println("<h3>!!!Registeration Successfull!!!</h3>");
+			if(rs.next())
+			pw.println("<h3>Your unique user ID is: </h3>"+rs.getInt(1));
+			pw.println("<center>To go to Login Page: <a href='loginPage.html'>Click here</a></center>");
+			
+		} catch (SQLException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

@@ -19,6 +19,8 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  * Servlet Filter implementation class LogFilter
@@ -77,14 +79,27 @@ public class LogFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		// TODO Auto-generated method stub
 		// place your code here
-			
+		
+		PrintWriter out = response.getWriter();
+		PrintWriter pw = new PrintWriter("/home/vishal/logFile.txt");
+		try{
 		int userId = Integer.parseInt(request.getParameter("userId"));
 		String pass = request.getParameter("password");
-		PrintWriter out = response.getWriter();
+		
 		
 
 		if (userId == 0 && pass.equals("root"))
 		{
+			int count=0;
+	        /*File countFile = new File("/home/vishal/logFile.txt");*/
+	        
+	        /*bw = new BufferedWriter(new FileWriter(countFile));
+	        */
+	        count++;
+	        pw.write(1);
+	        //bw.flush();
+	        pw.close();
+	        
 			RequestDispatcher rd = request.getRequestDispatcher("adminDashboard.html");
 			rd.forward(request, response);
 		}
@@ -93,7 +108,7 @@ public class LogFilter implements Filter {
 		{
 			
 			String user = request.getParameter("userId");
-			File logFile = new File("D:/logFile.txt");
+			File logFile = new File("/home/vishal/logFile.txt");
 			BufferedWriter bw = new BufferedWriter(new FileWriter(logFile,true));
 			
 			if(!logFile.exists())
@@ -107,6 +122,19 @@ public class LogFilter implements Filter {
 			bw.flush();
 			bw.close();
 			
+			HttpServletRequest hsr = (HttpServletRequest) request;
+			HttpSession session=hsr.getSession();  
+	        session.setAttribute("id",userId);
+	        int count=0;
+	        /*File countFile = new File("/home/vishal/logFile.txt");*/
+	        //PrintWriter pw = new PrintWriter("/home/vishal/logFile.txt");
+	        /*bw = new BufferedWriter(new FileWriter(countFile));
+	        */
+	        //count++;
+	        //pw.write(count);
+	        //bw.flush();
+	        //pw.close();
+	        
 			RequestDispatcher rd = request.getRequestDispatcher("userPage.html");
 			rd.forward(request, response);
 		}
@@ -115,15 +143,14 @@ public class LogFilter implements Filter {
 			response.setContentType("text/html");
 			out.println("!!!Invalid Username or Password!!!");
 			out.close();
+		}}catch(Exception e)
+		{
+			response.setContentType("text/html");
+			out.println("<h3 align='center'>!!!Please enter an Integer User Id!!!</h3>");
+			out.println("<center>For trying to Login again: <a href='loginPage.html'>Click here</a></center>");
+		}
 		}
 		
-	
-		// pass the request along the filter chain
-		
-		//chain.doFilter(request, response);
-		
-
-	}
 	/**
 	 * @see Filter#init(FilterConfig)
 	 */

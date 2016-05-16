@@ -49,6 +49,7 @@ public class RemoveServlet extends HttpServlet {
 					"delete from books where bookId=" + Integer.parseInt(request.getParameter("bookId")));
 			ps.executeUpdate();
 			con.commit();
+			response.sendRedirect("adminDashboard.html");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

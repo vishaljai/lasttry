@@ -11,7 +11,6 @@ public class ConnectionDB {
 
 		// creating connection object
 		Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cybagelibrary", "root", "root");
-		System.out.println("HELLO");
 		return con;
 	}
 

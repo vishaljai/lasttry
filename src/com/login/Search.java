@@ -69,9 +69,15 @@ public class Search extends HttpServlet {
 							+ rs.getString(2) + "\t\t" + rs.getString(3) + "\t\t" + rs.getString(4) + "\t\t"
 							+ rs.getInt(5));
 				} while (rs.next());
-				
+			
+				ResultSet rs1 = s
+						.executeQuery("select * from books where bookTitle='" + request.getParameter("bookTitle") + "'");
 				pw.println("<br><input type='submit' value='Add Review'>" + "\t\t");
-				pw.println("<input type='submit' value='View Details'>");
+				rs1.next();
+				pw.println("</form>");
+				pw.println("<form method='get' action='Details'>");
+				pw.println("<input type='hidden' name='bookId' value='"+rs1.getInt(1)+"'>");
+				pw.println("<input type='submit' value='View Details'><br><a href=loginPage.html>Logout</a>");
 				pw.println("</form>");
 			} else {
 				pw.println("There is no data in database!!!");

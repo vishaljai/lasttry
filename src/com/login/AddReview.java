@@ -37,7 +37,7 @@ public class AddReview extends HttpServlet {
 	+"<form method='post' action='#'>"
 		+"<table align='center'>"
 			+"<tr>"
-		+"<input type='hidden' name='bookId' value='"+request.getParameter("bookId")+"'"
+		+"<input type='hidden' name='bookId' value='"+request.getParameter("bookId")+"'>"
 				+"<td><textarea rows='4' cols='50'"
 						+"placeholder='Enter User Id' name='review'></textarea></td>"
 			+"</tr>"
@@ -63,7 +63,7 @@ public class AddReview extends HttpServlet {
 		}
 		
 		try {
-			PreparedStatement ps = con.prepareStatement("insert into review(review,bookId) values(?,?)");
+			PreparedStatement ps = con.prepareStatement("insert into reviews(review,bookId) values(?,?)");
 			ps.setString(1, request.getParameter("review"));
 			ps.setInt(2, Integer.parseInt(request.getParameter("bookId")));
 			ps.execute();

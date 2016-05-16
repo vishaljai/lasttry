@@ -1,5 +1,6 @@
 package com.login;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -52,7 +53,8 @@ public class InsertServlet extends HttpServlet {
 			ps.setInt(4, Integer.parseInt(request.getParameter("pages")));
 			ps.execute();
 			con.commit();
-		} catch (SQLException e) {
+			response.sendRedirect("adminDashboard.html");
+		} catch (SQLException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

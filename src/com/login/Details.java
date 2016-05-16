@@ -35,6 +35,7 @@ public class Details extends HttpServlet {
 			throws ServletException, IOException {
 		ConnectionDB cdb = new ConnectionDB();
 		Connection con = null;
+		PrintWriter pw = response.getWriter();
 
 		try {
 			con = cdb.getConnection();
@@ -53,24 +54,44 @@ public class Details extends HttpServlet {
 			e.printStackTrace();
 		}
 
-		try (PrintWriter pw = response.getWriter()) {
+		try {
 
 			ResultSet rs = s.executeQuery("select * from books where bookId='" + request.getParameter("bookId") + "'");
-			ResultSet rs1 = s1.executeQuery("select review from addreview where bookId='" + request.getParameter("bookId") + "'");
+			ResultSet rs1 = s1
+					.executeQuery("select review from reviews where bookId='" + request.getParameter("bookId") + "'");
+			response.setContentType("text/html");
 			if (rs.next()) {
 
-				pw.print(rs.getMetaData().getColumnName(1) + "\t" + rs.getMetaData().getColumnName(2) + "\t"
-						+ rs.getMetaData().getColumnName(3) + "\t\t" + rs.getMetaData().getColumnName(4) + "\t\t"
-						+ rs.getMetaData().getColumnName(5));
-				//pw.println("\t"+rs1.getMetaData().getColumnName(1));
+				pw.println(rs.getMetaData().getColumnName(2)
+						+ "<span style='display:inline-block; width: 20px;'></span>"
+						+ rs.getMetaData().getColumnName(3)
+						+ "<span style='display:inline-block; width: 20px;'></span>"
+						+ rs.getMetaData().getColumnName(4)
+						+ "<span style='display:inline-block; width: 20px;'></span>"
+						+ rs.getMetaData().getColumnName(5)
+						+ "<span style='display:inline-block; width: 40px;'></span>"
+						+ rs1.getMetaData().getColumnName(1) + "<br>");
+
 				do {
-					if(rs1.next()){
-					pw.println(rs.getInt(1) + "\t" + rs.getString(2) + "\t\t" + rs.getString(3) + "\t" + rs.getString(4)
-							+ "\t\t" + rs.getInt(5));
-					pw.println("\t"+rs1.getString(1));}
+					if (rs1.next()) {
+						do {
+							pw.println(rs.getString(2)
+									+ "<span style='display:inline-block; width: 70px;'></span>"
+									+ rs.getString(3)
+									+ "<span style='display:inline-block; width: 70px;'></span>"
+									+ rs.getString(4)
+									+ "<span style='display:inline-block; width: 80px;'></span>"
+									+ rs.getInt(5)
+									+ "<span style='display:inline-block; width: 70px;'></span>"
+									+ rs1.getString(1) + "<br>");
+						} while (rs1.next());
+					}
+
 				} while (rs.next());
+				pw.println("<a href=userPage.html>Go to Home</a><br>");
 			} else {
-				pw.println("There is no data in database!!!");
+
+				pw.println("<h3 align='center'>!!!There is no data in database!!!</h3>");
 			}
 
 		} catch (SQLException e) {
